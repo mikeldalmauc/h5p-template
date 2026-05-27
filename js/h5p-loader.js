@@ -9,27 +9,13 @@ function loadH5P(contentFolder, containerId = 'h5p-container') {
         const pathname = window.location.pathname;
         let h5pJsonPath;
         
-        // Si estamos en una página dentro de /pages/
+        // Estrategia: usar rutas relativas que se resuelvan desde el directorio del HTML
         if (pathname.includes('/pages/')) {
-            // Estamos en /h5p-template/pages/game-map.html
-            // Necesitamos ir a /h5p-template/h5p-content/...
-            const pathSegments = pathname.split('/').filter(p => p);
-            // Quitar el último segmento (el archivo HTML)
-            pathSegments.pop();
-            // Quitar 'pages'
-            pathSegments.pop();
-            // Reconstruir la ruta
-            const basePath = '/' + pathSegments.join('/');
-            h5pJsonPath = window.location.origin + basePath + '/h5p-content/' + contentFolder;
+            // Estamos en /pages/game-map.html - subir un nivel
+            h5pJsonPath = '../h5p-content/' + contentFolder;
         } else {
-            // Estamos en la raíz (index.html)
-            const pathSegments = pathname.split('/').filter(p => p);
-            // Quitar el último segmento (el archivo HTML o vacío)
-            if (!pathname.endsWith('/')) {
-                pathSegments.pop();
-            }
-            const basePath = '/' + pathSegments.join('/');
-            h5pJsonPath = window.location.origin + basePath + '/h5p-content/' + contentFolder;
+            // Estamos en index.html en la raíz
+            h5pJsonPath = './h5p-content/' + contentFolder;
         }
         
         const options = {
