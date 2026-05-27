@@ -5,18 +5,30 @@
  */
 function loadH5P(contentFolder, containerId = 'h5p-container') {
     document.addEventListener('DOMContentLoaded', function () {
-        // Determinar la ruta correcta según dónde se ejecute
+        // Calcular la ruta base correctamente
         const pathname = window.location.pathname;
         let h5pJsonPath;
         
-        // Estrategia: usar rutas relativas que se resuelvan desde el directorio del HTML
-        if (pathname.includes('/pages/')) {
-            // Estamos en /pages/game-map.html - subir un nivel
-            h5pJsonPath = '../h5p-content/' + contentFolder;
-        } else {
-            // Estamos en index.html en la raíz
-            h5pJsonPath = './h5p-content/' + contentFolder;
+        // Encontrar la carpeta raíz del proyecto
+        // En GitHub Pages: pathname = /h5p-template/pages/game-map.html
+        // En local: pathname = /pages/game-map.html o C:/repos/h5p-template/pages/game-map.html
+        
+        const pathParts = pathname.split('/').filter(p => p);
+        
+        // Buscar dónde está 'pages' o 'h5p-template'
+        let basePath = '/';
+        
+        if (pathParts.includes('h5p-template')) {
+            // GitHub Pages: /h5p-template/pages/game-map.html
+            const index = pathParts.indexOf('h5p-template');
+            basePath = '/' + pathParts.slice(0, index + 1).join('/');
+        } else if (pathParts.includes('pages')) {
+            // Local: /pages/game-map.html
+            // Asumimos que la raíz es una carpeta arriba de 'pages'
+            basePath = '/';
         }
+        
+        h5pJsonPath = basePath + '/h5p-content/' + contentFolder;
         
         const options = {
             h5pJsonPath: h5pJsonPath,
