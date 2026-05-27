@@ -6,10 +6,34 @@
 function loadH5P(contentFolder, containerId = 'h5p-container') {
     document.addEventListener('DOMContentLoaded', function () {
         // Determinar la ruta correcta según dónde se ejecute
-        const basePath = window.location.pathname.includes('/pages/') ? '../' : './';
+        const pathname = window.location.pathname;
+        let h5pJsonPath;
+        
+        // Si estamos en una página dentro de /pages/
+        if (pathname.includes('/pages/')) {
+            // Estamos en /h5p-template/pages/game-map.html
+            // Necesitamos ir a /h5p-template/h5p-content/...
+            const pathSegments = pathname.split('/').filter(p => p);
+            // Quitar el último segmento (el archivo HTML)
+            pathSegments.pop();
+            // Quitar 'pages'
+            pathSegments.pop();
+            // Reconstruir la ruta
+            const basePath = '/' + pathSegments.join('/');
+            h5pJsonPath = window.location.origin + basePath + '/h5p-content/' + contentFolder;
+        } else {
+            // Estamos en la raíz (index.html)
+            const pathSegments = pathname.split('/').filter(p => p);
+            // Quitar el último segmento (el archivo HTML o vacío)
+            if (!pathname.endsWith('/')) {
+                pathSegments.pop();
+            }
+            const basePath = '/' + pathSegments.join('/');
+            h5pJsonPath = window.location.origin + basePath + '/h5p-content/' + contentFolder;
+        }
         
         const options = {
-            h5pJsonPath: basePath + 'h5p-content/' + contentFolder,
+            h5pJsonPath: h5pJsonPath,
             frameJs: 'https://cdn.jsdelivr.net/npm/h5p-standalone@latest/dist/frame.bundle.js',
             frameCss: 'https://cdn.jsdelivr.net/npm/h5p-standalone@latest/dist/styles/h5p.css',
         };
