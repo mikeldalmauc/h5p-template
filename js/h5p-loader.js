@@ -68,4 +68,4 @@ const H5PContentRegistry = {
 
 // Registrar los contenidos existentes
 H5PContentRegistry.register('timeline', 'timeline-108', 'Timeline');
-H5PContentRegistry.register('game-map-2', 'game-map-2', 'Game Map');
+H5PContentRegistry.register('game-map', 'game-map', 'Game Map');
