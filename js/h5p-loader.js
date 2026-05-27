@@ -21,14 +21,19 @@ function loadH5P(contentFolder, containerId = 'h5p-container') {
         if (pathParts.includes('h5p-template')) {
             // GitHub Pages: /h5p-template/pages/game-map.html
             const index = pathParts.indexOf('h5p-template');
-            basePath = '/' + pathParts.slice(0, index + 1).join('/');
+            basePath = '/' + pathParts.slice(0, index + 1).join('/') + '/';
         } else if (pathParts.includes('pages')) {
             // Local: /pages/game-map.html
             // Asumimos que la raíz es una carpeta arriba de 'pages'
             basePath = '/';
         }
         
-        h5pJsonPath = basePath + '/h5p-content/' + contentFolder;
+        h5pJsonPath = basePath + 'h5p-content/' + contentFolder;
+        
+        console.log('Debug H5P Loader:');
+        console.log('  pathname:', pathname);
+        console.log('  basePath:', basePath);
+        console.log('  h5pJsonPath:', h5pJsonPath);
         
         const options = {
             h5pJsonPath: h5pJsonPath,
