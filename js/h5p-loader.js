@@ -30,11 +30,6 @@ function loadH5P(contentFolder, containerId = 'h5p-container') {
         
         h5pJsonPath = basePath + 'h5p-content/' + contentFolder;
         
-        console.log('Debug H5P Loader:');
-        console.log('  pathname:', pathname);
-        console.log('  basePath:', basePath);
-        console.log('  h5pJsonPath:', h5pJsonPath);
-        
         const options = {
             h5pJsonPath: h5pJsonPath,
             frameJs: 'https://cdn.jsdelivr.net/npm/h5p-standalone@latest/dist/frame.bundle.js',
