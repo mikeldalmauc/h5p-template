@@ -35,6 +35,7 @@ function loadH5P(contentFolder, containerId = 'h5p-container') {
     });
 }
 
+
 /**
  * Objeto de configuración para gestionar múltiples contenidos H5P
  * Permite registrar contenidos dinámicamente y es útil para crear puntos de menú
